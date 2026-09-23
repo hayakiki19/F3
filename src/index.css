@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --color-orange: #FF6A00;
+  --color-blue: #8DD8FF;
+  --color-dark: #0A0A0A;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0A0A0A;
+  background-color: #FFFFFF;
+}
+
+.font-editorial {
+  font-family: 'Cabinet Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* Gymbox-inspired bold styling utilities */
+.stroke-headline {
+  -webkit-text-stroke: 1.5px #0A0A0A;
+  color: transparent;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 25s linear infinite;
+}
+

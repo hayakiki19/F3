@@ -1,0 +1,6 @@
+{
+  "name": "Fitness Pro Academy",
+  "description": "Professional personal trainers for home workout sessions. Discover certified trainers, book trial sessions, purchase training plans, and schedule home sessions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
