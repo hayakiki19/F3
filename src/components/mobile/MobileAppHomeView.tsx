@@ -39,6 +39,7 @@ export const MobileAppHomeView: React.FC = () => {
     user,
     currentView,
     setCurrentView,
+    navigateToPage,
     setActiveClientTab,
   } = useApp();
 
@@ -282,73 +283,73 @@ export const MobileAppHomeView: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. Instant 4-Action Phone Grid */}
-        <div className="grid grid-cols-2 gap-2.5">
+        {/* 4. Instant Action Phone Grid (Routes directly to Dedicated Pages) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <button
             type="button"
-            onClick={() => {
-              const el = document.getElementById('mobile-services');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px]"
+            onClick={() => navigateToPage('trainers')}
+            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-[#FF6A00] flex items-center justify-center">
-              <Dumbbell className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-xs font-black uppercase text-white">Home Services</p>
-              <p className="text-[10px] text-neutral-400 font-medium">Strength, fat loss & mobility</p>
-            </div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              const el = document.getElementById('mobile-trainers');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px]"
-          >
-            <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-[#8DD8FF] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-orange-500/20 text-[#FF6A00] flex items-center justify-center group-hover:scale-110 transition">
               <Users className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-black uppercase text-white">Browse Coaches</p>
-              <p className="text-[10px] text-neutral-400 font-medium">6 certified coaches near you</p>
+              <p className="text-xs font-black uppercase text-white flex items-center justify-between">
+                <span>Coaches</span>
+                <span className="text-[10px] text-[#FF6A00]">View Page →</span>
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium">ACE & CSCS Doorstep Pros</p>
             </div>
           </button>
 
           <button
             type="button"
-            onClick={() => {
-              const el = document.getElementById('mobile-plans');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px]"
+            onClick={() => navigateToPage('how-it-works')}
+            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-[#8DD8FF] flex items-center justify-center group-hover:scale-110 transition">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase text-white flex items-center justify-between">
+                <span>How It Works</span>
+                <span className="text-[10px] text-[#8DD8FF]">View Page →</span>
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium">6x6 ft Living Room Setup</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigateToPage('plans')}
+            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px] group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition">
               <CreditCard className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-black uppercase text-white">Monthly Plans</p>
-              <p className="text-[10px] text-neutral-400 font-medium">12, 24, 36 sessions from ₹5,499</p>
+              <p className="text-xs font-black uppercase text-white flex items-center justify-between">
+                <span>Plans & Pricing</span>
+                <span className="text-[10px] text-emerald-400">View Page →</span>
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium">Starter, Transform, Pro Packs</p>
             </div>
           </button>
 
           <button
             type="button"
-            onClick={() => {
-              const el = document.getElementById('mobile-supplements');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px]"
+            onClick={() => navigateToPage('supplements')}
+            className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 p-3.5 rounded-xl text-left transition active:scale-95 flex flex-col justify-between min-h-[96px] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition">
               <ShoppingBag className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-black uppercase text-white">Supplements</p>
-              <p className="text-[10px] text-neutral-400 font-medium">Whey, creatine & vitamins</p>
+              <p className="text-xs font-black uppercase text-white flex items-center justify-between">
+                <span>Supplements</span>
+                <span className="text-[10px] text-amber-400">View Page →</span>
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium">Whey, Creatine & Hydration</p>
             </div>
           </button>
         </div>

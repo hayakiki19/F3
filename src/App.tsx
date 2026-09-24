@@ -26,9 +26,14 @@ import { TrainerDashboard } from './components/trainer/TrainerDashboard';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { MobileAppHomeView } from './components/mobile/MobileAppHomeView';
+import { TrainersPage } from './pages/TrainersPage';
+import { HowItWorksPage } from './pages/HowItWorksPage';
+import { PlansPage } from './pages/PlansPage';
+import { SupplementsPage } from './pages/SupplementsPage';
+import { AboutPage } from './pages/AboutPage';
 
 const MainLayout: React.FC = () => {
-  const { currentView } = useApp();
+  const { currentView, activePublicPage } = useApp();
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] flex flex-col font-sans selection:bg-[#FF6A00] selection:text-white">
@@ -37,27 +42,66 @@ const MainLayout: React.FC = () => {
 
       {/* Dynamic Views */}
       {currentView === 'public' && (
-        <main className="flex-1 pb-20 lg:pb-0">
-          {/* Unique Native-App Mobile Home Screen for Phones */}
-          <div className="lg:hidden">
-            <MobileAppHomeView />
-          </div>
+        <div className="flex-1">
+          {activePublicPage === 'trainers' && (
+            <main className="pb-20 lg:pb-0">
+              <TrainersPage />
+              <Footer />
+            </main>
+          )}
 
-          {/* Full Web Landing Page for Desktop Viewports */}
-          <div className="hidden lg:block">
-            <HeroSection />
-            <GymActivitiesVideoShowcase />
-            <HowItWorks />
-            <TrainersSection />
-            <PlansSection />
-            <AboutSection />
-            <ConsultationSection />
-            <div id="supplements">
-              <ProductRecommendations />
-            </div>
-            <Footer />
-          </div>
-        </main>
+          {activePublicPage === 'how-it-works' && (
+            <main className="pb-20 lg:pb-0">
+              <HowItWorksPage />
+              <Footer />
+            </main>
+          )}
+
+          {activePublicPage === 'plans' && (
+            <main className="pb-20 lg:pb-0">
+              <PlansPage />
+              <Footer />
+            </main>
+          )}
+
+          {activePublicPage === 'supplements' && (
+            <main className="pb-20 lg:pb-0">
+              <SupplementsPage />
+              <Footer />
+            </main>
+          )}
+
+          {activePublicPage === 'about' && (
+            <main className="pb-20 lg:pb-0">
+              <AboutPage />
+              <Footer />
+            </main>
+          )}
+
+          {activePublicPage === 'home' && (
+            <main className="flex-1 pb-20 lg:pb-0">
+              {/* Unique Native-App Mobile Home Screen for Phones */}
+              <div className="lg:hidden">
+                <MobileAppHomeView />
+              </div>
+
+              {/* Full Web Landing Page for Desktop Viewports */}
+              <div className="hidden lg:block">
+                <HeroSection />
+                <GymActivitiesVideoShowcase />
+                <HowItWorks />
+                <TrainersSection />
+                <PlansSection />
+                <AboutSection />
+                <ConsultationSection />
+                <div id="supplements">
+                  <ProductRecommendations />
+                </div>
+                <Footer />
+              </div>
+            </main>
+          )}
+        </div>
       )}
 
       {currentView === 'client-app' && <ClientApp />}

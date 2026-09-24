@@ -3,15 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Dumbbell, Instagram, Youtube, Twitter, Facebook, ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setCurrentView, openBookingModal } = useApp();
-
-  const scrollTo = (id: string) => {
-    setCurrentView('public');
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
+  const { openBookingModal, navigateToPage } = useApp();
 
   return (
     <footer className="bg-[#0A0A0A] text-white pt-16 pb-12 border-t border-neutral-800">
@@ -78,19 +70,22 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs font-bold uppercase tracking-wider text-neutral-400">
               <li>
-                <button onClick={() => scrollTo('hero')} className="hover:text-white transition">Home</button>
+                <button onClick={() => navigateToPage('home')} className="hover:text-white transition">Home</button>
               </li>
               <li>
-                <button onClick={() => scrollTo('trainers')} className="hover:text-white transition">Trainers</button>
+                <button onClick={() => navigateToPage('trainers')} className="hover:text-white transition">Trainers & Coaches</button>
               </li>
               <li>
-                <button onClick={() => scrollTo('how-it-works')} className="hover:text-white transition">How It Works</button>
+                <button onClick={() => navigateToPage('how-it-works')} className="hover:text-white transition">How It Works</button>
               </li>
               <li>
-                <button onClick={() => scrollTo('plans')} className="hover:text-white transition">Plans</button>
+                <button onClick={() => navigateToPage('plans')} className="hover:text-white transition">Plans & Pricing</button>
               </li>
               <li>
-                <button onClick={() => scrollTo('about')} className="hover:text-white transition">About</button>
+                <button onClick={() => navigateToPage('supplements')} className="hover:text-white transition">Supplements</button>
+              </li>
+              <li>
+                <button onClick={() => navigateToPage('about')} className="hover:text-white transition">About Academy</button>
               </li>
             </ul>
           </div>

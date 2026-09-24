@@ -182,34 +182,31 @@ export const TrainerDashboard: React.FC = () => {
     <div className="min-h-screen bg-[#F7F7F8] flex flex-col pb-24 text-neutral-900">
       
       {/* Top Urban Company Partner Header */}
-      <header className="bg-white border-b border-neutral-300 sticky top-16 z-30 shadow-xs">
+      <header className="bg-white border-b border-neutral-200 sticky top-16 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Upper Partner Bar */}
-          <div className="flex items-center justify-between h-14 border-b border-neutral-100">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between py-2.5 border-b border-neutral-100 gap-2">
+            <div className="flex items-center gap-2 text-xs">
               <button
                 onClick={() => setCurrentView('public')}
-                className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-neutral-600 hover:text-black transition"
+                className="inline-flex items-center gap-1 font-bold text-neutral-500 hover:text-black transition"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Exit</span>
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Website</span>
               </button>
-              <span className="text-neutral-300">|</span>
-              <div className="flex items-center gap-2">
-                <span className={`w-2.5 h-2.5 rounded-full ${isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-neutral-400'}`}></span>
-                <span className="text-xs font-black uppercase tracking-wider text-black">
-                  Doorstep Pro · {trainer.name}
-                </span>
-                <span className="hidden md:inline-flex items-center gap-1 bg-amber-50 text-amber-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-amber-200">
-                  ★ {trainer.rating} Elite Partner
-                </span>
-              </div>
+              <span className="text-neutral-300">/</span>
+              <span className="font-bold text-neutral-500">Trainer Console</span>
+              <span className="text-neutral-300">/</span>
+              <span className="font-black text-black">{trainer.name}</span>
+              <span className="hidden md:inline-flex items-center gap-1 bg-amber-50 text-amber-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-full border border-amber-200">
+                ★ {trainer.rating} Elite Partner
+              </span>
             </div>
 
             {/* Duty Status Toggle (Online / Offline) */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-neutral-100 p-1 rounded-full border border-neutral-200">
+              <div className="flex items-center gap-1 bg-neutral-100 p-1 rounded-full border border-neutral-200">
                 <button
                   onClick={() => setIsOnline(true)}
                   className={`px-3 py-1 text-[11px] font-black uppercase tracking-wider rounded-full transition flex items-center gap-1.5 ${
@@ -231,7 +228,7 @@ export const TrainerDashboard: React.FC = () => {
 
               <button
                 onClick={() => setIsPayoutModalOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 bg-[#FF6A00] hover:bg-[#e05d00] text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition active:scale-95 shadow-xs"
+                className="hidden sm:flex items-center gap-1.5 bg-[#FF6A00] hover:bg-[#e05d00] text-white px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition active:scale-95 shadow-xs"
               >
                 <DollarSign className="w-3.5 h-3.5" />
                 <span>Payout: ₹{trainerEarnings.pendingPayout.toLocaleString('en-IN')}</span>
@@ -239,8 +236,8 @@ export const TrainerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Urban Company Navigation Segmented Pills (Scroll-free & Compact) */}
-          <div className="flex items-center justify-between overflow-x-auto py-2.5 space-x-1 no-scrollbar">
+          {/* Desktop Navigation Segmented Pills */}
+          <div className="hidden lg:flex items-center justify-between py-2.5 space-x-1.5">
             {[
               { id: 'live-dispatch', label: 'Live Doorstep Job', icon: Navigation, badge: isOnline ? 'ACTIVE' : null },
               { id: 'itinerary', label: `Today's Stops (${upcoming.length})`, icon: Calendar, badge: pendingChanges.length > 0 ? `${pendingChanges.length} Req` : null },
@@ -275,6 +272,50 @@ export const TrainerDashboard: React.FC = () => {
                 </button>
               );
             })}
+          </div>
+
+          {/* Mobile Navigation (NO Horizontal Slide Scroll: Clean 3x2 Grid) */}
+          <div className="lg:hidden py-2">
+            <div className="grid grid-cols-3 gap-1.5">
+              {[
+                { id: 'live-dispatch', label: 'Live Job', icon: Navigation, badge: isOnline ? 'LIVE' : null },
+                { id: 'itinerary', label: `Stops (${upcoming.length})`, icon: Calendar, badge: null },
+                { id: 'gear-checklist', label: `Gear (${packedCount}/7)`, icon: Dumbbell, badge: packedCount === 7 ? 'OK' : null },
+                { id: 'clients', label: 'Clients', icon: Users, badge: null },
+                { id: 'earnings', label: 'Payouts', icon: DollarSign, badge: '₹3.2k' },
+                { id: 'availability', label: 'Schedule', icon: Clock, badge: null },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`min-h-[42px] px-1.5 py-1.5 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 transition active:scale-95 border ${
+                      isActive
+                        ? 'bg-black text-white border-black shadow-xs font-black'
+                        : 'bg-white text-neutral-700 border-neutral-200 hover:border-black font-bold'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1">
+                      <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#FF6A00]' : 'text-neutral-500'}`} />
+                      {tab.badge && (
+                        <span
+                          className={`text-[8px] px-1 py-0 rounded-full font-black ${
+                            isActive ? 'bg-[#FF6A00] text-white' : 'bg-neutral-200 text-neutral-700'
+                          }`}
+                        >
+                          {tab.badge}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[10px] uppercase tracking-tight leading-none truncate w-full">
+                      {tab.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
         </div>

@@ -32,6 +32,9 @@ interface AppContextType {
   activeRole: Role;
   currentView: 'public' | 'client-app' | 'trainer-dashboard' | 'admin-dashboard';
   setCurrentView: (view: 'public' | 'client-app' | 'trainer-dashboard' | 'admin-dashboard') => void;
+  activePublicPage: 'home' | 'trainers' | 'how-it-works' | 'plans' | 'supplements' | 'about';
+  setActivePublicPage: (page: 'home' | 'trainers' | 'how-it-works' | 'plans' | 'supplements' | 'about') => void;
+  navigateToPage: (page: 'home' | 'trainers' | 'how-it-works' | 'plans' | 'supplements' | 'about') => void;
   activeClientTab: 'dashboard' | 'schedule' | 'plan' | 'workout' | 'progress' | 'profile';
   setActiveClientTab: (tab: 'dashboard' | 'schedule' | 'plan' | 'workout' | 'progress' | 'profile') => void;
 
@@ -80,6 +83,10 @@ interface AppContextType {
   isTrainerChatOpen: boolean;
   openTrainerChat: () => void;
   closeTrainerChat: () => void;
+
+  isDownloadAppModalOpen: boolean;
+  openDownloadAppModal: () => void;
+  closeDownloadAppModal: () => void;
 
   // Business Actions
   loginAsClient: (persona: 'rahul' | 'anita' | 'custom', custom?: Partial<ClientUser>) => void;
@@ -142,7 +149,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [user, setUser] = useState<ClientUser | null>(DEMO_CLIENT_RAHUL);
   const [activeRole, setActiveRole] = useState<Role>('client');
   const [currentView, setCurrentView] = useState<'public' | 'client-app' | 'trainer-dashboard' | 'admin-dashboard'>('public');
+  const [activePublicPage, setActivePublicPage] = useState<'home' | 'trainers' | 'how-it-works' | 'plans' | 'supplements' | 'about'>('home');
   const [activeClientTab, setActiveClientTab] = useState<'dashboard' | 'schedule' | 'plan' | 'workout' | 'progress' | 'profile'>('dashboard');
+
+  const navigateToPage = (page: 'home' | 'trainers' | 'how-it-works' | 'plans' | 'supplements' | 'about') => {
+    setCurrentView('public');
+    setActivePublicPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const [trainers, setTrainers] = useState<Trainer[]>(INITIAL_TRAINERS);
   const [clients, setClients] = useState<ClientUser[]>(INITIAL_CLIENTS);
@@ -170,6 +184,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedTrainerForProfile, setSelectedTrainerForProfile] = useState<Trainer | null>(null);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isTrainerChatOpen, setIsTrainerChatOpen] = useState(false);
+  const [isDownloadAppModalOpen, setIsDownloadAppModalOpen] = useState(false);
 
   // Sync view when role switches
   useEffect(() => {
@@ -237,6 +252,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const openTrainerChat = () => setIsTrainerChatOpen(true);
   const closeTrainerChat = () => setIsTrainerChatOpen(false);
+
+  const openDownloadAppModal = () => setIsDownloadAppModalOpen(true);
+  const closeDownloadAppModal = () => setIsDownloadAppModalOpen(false);
 
   // Role switching
   const loginAsClient = (persona: 'rahul' | 'anita' | 'custom', custom?: Partial<ClientUser>) => {
@@ -1003,6 +1021,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         activeRole,
         currentView,
         setCurrentView,
+        activePublicPage,
+        setActivePublicPage,
+        navigateToPage,
         activeClientTab,
         setActiveClientTab,
         clients,
@@ -1052,6 +1073,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isTrainerChatOpen,
         openTrainerChat,
         closeTrainerChat,
+
+        isDownloadAppModalOpen,
+        openDownloadAppModal,
+        closeDownloadAppModal,
 
         loginAsClient,
         loginAsTrainer,

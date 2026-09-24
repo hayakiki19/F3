@@ -29,6 +29,8 @@ export const MobileBottomNav: React.FC = () => {
   const {
     currentView,
     setCurrentView,
+    activePublicPage,
+    navigateToPage,
     activeClientTab,
     setActiveClientTab,
     user,
@@ -321,35 +323,33 @@ export const MobileBottomNav: React.FC = () => {
               {/* Tab 1: Explore / Home */}
               <button
                 type="button"
-                onClick={() => {
-                  if (currentView === 'public') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  } else {
-                    setCurrentView('public');
-                  }
-                }}
+                onClick={() => navigateToPage('home')}
                 className={`flex flex-col items-center justify-center min-h-[44px] py-1 transition-all active:scale-95 ${
-                  currentView === 'public'
-                    ? 'text-[#FF6A00]'
+                  currentView === 'public' && activePublicPage === 'home'
+                    ? 'text-[#FF6A00] font-black'
                     : 'text-neutral-500 hover:text-black'
                 }`}
                 aria-label="Home and Explore"
               >
                 <Compass className="w-5 h-5" />
-                <span className="text-[10px] font-black uppercase tracking-tight mt-0.5">
-                  Explore
+                <span className="text-[10px] uppercase tracking-tight mt-0.5 font-bold">
+                  Home
                 </span>
               </button>
 
               {/* Tab 2: Coaches */}
               <button
                 type="button"
-                onClick={() => scrollTo('trainers')}
-                className="flex flex-col items-center justify-center min-h-[44px] py-1 text-neutral-500 hover:text-black transition-all active:scale-95"
+                onClick={() => navigateToPage('trainers')}
+                className={`flex flex-col items-center justify-center min-h-[44px] py-1 transition-all active:scale-95 ${
+                  currentView === 'public' && activePublicPage === 'trainers'
+                    ? 'text-[#FF6A00] font-black'
+                    : 'text-neutral-500 hover:text-black'
+                }`}
                 aria-label="Browse Coaches"
               >
                 <Users className="w-5 h-5" />
-                <span className="text-[10px] font-black uppercase tracking-tight mt-0.5">
+                <span className="text-[10px] uppercase tracking-tight mt-0.5 font-bold">
                   Coaches
                 </span>
               </button>
@@ -357,12 +357,16 @@ export const MobileBottomNav: React.FC = () => {
               {/* Tab 3: Plans */}
               <button
                 type="button"
-                onClick={() => scrollTo('plans')}
-                className="flex flex-col items-center justify-center min-h-[44px] py-1 text-neutral-500 hover:text-black transition-all active:scale-95"
+                onClick={() => navigateToPage('plans')}
+                className={`flex flex-col items-center justify-center min-h-[44px] py-1 transition-all active:scale-95 ${
+                  currentView === 'public' && activePublicPage === 'plans'
+                    ? 'text-[#FF6A00] font-black'
+                    : 'text-neutral-500 hover:text-black'
+                }`}
                 aria-label="Membership Plans"
               >
                 <CreditCard className="w-5 h-5" />
-                <span className="text-[10px] font-black uppercase tracking-tight mt-0.5">
+                <span className="text-[10px] uppercase tracking-tight mt-0.5 font-bold">
                   Plans
                 </span>
               </button>
@@ -370,12 +374,16 @@ export const MobileBottomNav: React.FC = () => {
               {/* Tab 4: Supplements */}
               <button
                 type="button"
-                onClick={() => scrollTo('supplements')}
-                className="flex flex-col items-center justify-center min-h-[44px] py-1 text-neutral-500 hover:text-[#FF6A00] transition-all active:scale-95 relative"
+                onClick={() => navigateToPage('supplements')}
+                className={`flex flex-col items-center justify-center min-h-[44px] py-1 transition-all active:scale-95 relative ${
+                  currentView === 'public' && activePublicPage === 'supplements'
+                    ? 'text-[#FF6A00] font-black'
+                    : 'text-neutral-500 hover:text-[#FF6A00]'
+                }`}
                 aria-label="Supplements and Nutrition"
               >
                 <Zap className="w-5 h-5 text-[#FF6A00]" />
-                <span className="text-[10px] font-black uppercase tracking-tight mt-0.5">
+                <span className="text-[10px] uppercase tracking-tight mt-0.5 font-bold">
                   Nutrition
                 </span>
               </button>

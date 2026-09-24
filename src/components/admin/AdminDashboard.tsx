@@ -35,6 +35,7 @@ import {
   UserPlus,
   CalendarDays,
   List,
+  ChevronDown,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -70,6 +71,7 @@ export const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     'overview' | 'clients' | 'bookings' | 'schedules' | 'leads' | 'equipment' | 'revenue'
   >('overview');
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // Client Management Filters & State
   const [clientFilter, setClientFilter] = useState<'all' | 'with-plan' | 'no-plan' | 'trial' | 'expired'>('all');
@@ -170,86 +172,190 @@ export const AdminDashboard: React.FC = () => {
       )}
 
       {/* Top Admin Header Bar */}
-      <header className="bg-white border-b-2 border-black sticky top-16 z-30 shadow-sm">
+      <header className="bg-white border-b border-neutral-200 sticky top-16 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between py-3 gap-3">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between py-2.5 gap-2 border-b border-neutral-100">
+            <div className="flex items-center gap-2 text-xs">
               <button
                 onClick={() => setCurrentView('public')}
-                className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-neutral-600 hover:text-black transition"
+                className="inline-flex items-center gap-1 font-bold text-neutral-500 hover:text-black transition"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Exit Admin</span>
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Website</span>
               </button>
-              <span className="text-neutral-300">|</span>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 bg-[#FF6A00] rounded-full animate-pulse"></span>
-                <span className="text-xs font-black uppercase text-black tracking-wider">
-                  FITNESS PRO ACADEMY · HQ CONTROL CONSOLE
+              <span className="text-neutral-300">/</span>
+              <span className="font-bold text-neutral-500">HQ Operations</span>
+              <span className="text-neutral-300">/</span>
+              <span className="font-black text-black">Director Console</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-xs font-bold text-neutral-600">
+                Dispatch System Live · Mumbai Hub
+              </span>
+            </div>
+          </div>
+
+          {/* Admin Tabs (Desktop) */}
+          <div className="hidden lg:flex items-center overflow-x-auto space-x-1.5 py-2 scrollbar-none">
+            {[
+              { id: 'overview', label: 'Overview', icon: TrendingUp },
+              { id: 'clients', label: `Clients (${clients.length})`, icon: Users },
+              { id: 'bookings', label: `Bookings (${bookings.length})`, icon: Calendar },
+              { id: 'schedules', label: 'Blackouts & Slots', icon: Clock },
+              { id: 'leads', label: `Leads (${consultationLeads.length})`, icon: Phone },
+              { id: 'equipment', label: `Gear Kits (${equipmentKits.length})`, icon: Dumbbell },
+              { id: 'revenue', label: 'Financials', icon: DollarSign },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-3.5 py-1.5 text-xs font-black uppercase tracking-wider whitespace-nowrap rounded-xl transition-all flex items-center gap-2 ${
+                    isActive
+                      ? 'bg-black text-white shadow-xs'
+                      : 'text-neutral-600 hover:text-black hover:bg-neutral-100'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#FF6A00]' : 'text-neutral-500'}`} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mobile Navigation (NO Horizontal Slide Scroll: Clean, User-Friendly Section Switcher) */}
+        <div className="lg:hidden border-t border-neutral-200 bg-white px-3 py-2 space-y-1.5">
+          {/* Active Section Banner with Dropdown Trigger */}
+          <button
+            type="button"
+            onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+            className="w-full flex items-center justify-between p-2 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 rounded-xl transition active:scale-98"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 shrink-0">
+                Section:
+              </span>
+              <div className="flex items-center gap-1.5 min-w-0 font-black text-xs text-black">
+                {activeTab === 'overview' && <TrendingUp className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'clients' && <Users className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'bookings' && <Calendar className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'schedules' && <Clock className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'leads' && <Phone className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'equipment' && <Dumbbell className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                {activeTab === 'revenue' && <DollarSign className="w-4 h-4 text-[#FF6A00] shrink-0" />}
+                <span className="truncate uppercase font-black">
+                  {activeTab === 'overview' && 'Overview'}
+                  {activeTab === 'clients' && `Clients (${clients.length})`}
+                  {activeTab === 'bookings' && `Bookings (${bookings.length})`}
+                  {activeTab === 'schedules' && 'Slots & Blackouts'}
+                  {activeTab === 'leads' && `Leads (${consultationLeads.length})`}
+                  {activeTab === 'equipment' && `Gear Kits (${equipmentKits.length})`}
+                  {activeTab === 'revenue' && 'Financials & Revenue'}
                 </span>
               </div>
             </div>
+            <div className="flex items-center gap-1 text-[10px] font-black uppercase text-neutral-700 bg-white px-2 py-1 rounded-lg border border-neutral-200 shadow-2xs shrink-0 ml-2">
+              <span>{isMobileNavOpen ? 'Hide' : 'All Sections'}</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isMobileNavOpen ? 'rotate-180' : ''}`} />
+            </div>
+          </button>
 
-            {/* Admin Tabs (Desktop) */}
-            <div className="hidden lg:flex items-center overflow-x-auto space-x-1 py-1 scrollbar-none">
+          {/* Quick-Access 4-Button Grid (Fits 100% on screen, Zero Sliding) */}
+          <div className="grid grid-cols-4 gap-1">
+            {[
+              { id: 'overview', label: 'Overview', icon: TrendingUp },
+              { id: 'clients', label: `Clients`, icon: Users },
+              { id: 'bookings', label: `Bookings`, icon: Calendar },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(tab.id as any);
+                    setIsMobileNavOpen(false);
+                  }}
+                  className={`min-h-[38px] px-1 py-1.5 text-[10px] font-black uppercase tracking-tight rounded-xl flex items-center justify-center gap-1 transition active:scale-95 ${
+                    isActive
+                      ? 'bg-black text-white shadow-xs font-black'
+                      : 'bg-neutral-100 text-neutral-700 hover:text-black hover:bg-neutral-200 font-bold'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-[#FF6A00]' : 'text-neutral-500'}`} />
+                  <span className="truncate">{tab.label}</span>
+                </button>
+              );
+            })}
+
+            {/* More Sections Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+              className={`min-h-[38px] px-1 py-1.5 text-[10px] font-black uppercase tracking-tight rounded-xl flex items-center justify-center gap-1 transition active:scale-95 ${
+                isMobileNavOpen || !['overview', 'clients', 'bookings'].includes(activeTab)
+                  ? 'bg-[#FF6A00] text-white shadow-xs font-black'
+                  : 'bg-neutral-100 text-neutral-700 hover:text-black hover:bg-neutral-200 font-bold'
+              }`}
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
+              <span>More (4)</span>
+            </button>
+          </div>
+
+          {/* Expanded Drawer: All 7 Sections in a Clean, Comfortable Vertical List */}
+          {isMobileNavOpen && (
+            <div className="pt-2 pb-1 border-t border-neutral-100 grid grid-cols-1 gap-1 animate-in fade-in slide-in-from-top-1">
               {[
-                { id: 'overview', label: 'Overview', icon: TrendingUp },
-                { id: 'clients', label: `Clients (${clients.length})`, icon: Users },
-                { id: 'bookings', label: `Bookings (${bookings.length})`, icon: Calendar },
-                { id: 'schedules', label: 'Blackouts & Slots', icon: Clock },
-                { id: 'leads', label: `Leads (${consultationLeads.length})`, icon: Phone },
-                { id: 'equipment', label: `Gear Kits (${equipmentKits.length})`, icon: Dumbbell },
-                { id: 'revenue', label: 'Financials', icon: DollarSign },
+                { id: 'overview', label: 'Overview & Metrics', desc: 'Dispatch volume, active sessions & top KPIs', icon: TrendingUp },
+                { id: 'clients', label: `Clients Directory (${clients.length})`, desc: 'Active memberships, trials & expired plans', icon: Users },
+                { id: 'bookings', label: `Session Bookings (${bookings.length})`, desc: 'Calendar dispatcher & live trainer assignments', icon: Calendar },
+                { id: 'schedules', label: 'Trainer Blackouts & Slots', desc: 'Manage rest hours, buffers & available slots', icon: Clock },
+                { id: 'leads', label: `Doorstep Inquiries (${consultationLeads.length})`, desc: 'Incoming trial consultation requests', icon: Phone },
+                { id: 'equipment', label: `Gear & Suites (${equipmentKits.length})`, desc: 'Mobile equipment kits, mats & sanitization', icon: Dumbbell },
+                { id: 'revenue', label: 'Financials & Revenue', desc: 'Earnings, payouts & plan transactions', icon: DollarSign },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`px-3 py-1.5 text-xs font-black uppercase tracking-wider whitespace-nowrap rounded transition flex items-center gap-1.5 ${
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(tab.id as any);
+                      setIsMobileNavOpen(false);
+                    }}
+                    className={`w-full p-2.5 rounded-xl text-left flex items-center justify-between border transition active:scale-98 ${
                       isActive
-                        ? 'bg-black text-white shadow-xs'
-                        : 'text-neutral-600 hover:text-black hover:bg-neutral-100'
+                        ? 'bg-black text-white border-black shadow-xs font-black'
+                        : 'bg-neutral-50 hover:bg-neutral-100 border-neutral-200 text-neutral-800 font-bold'
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{tab.label}</span>
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                        isActive ? 'bg-[#FF6A00] text-white' : 'bg-white text-neutral-700 border border-neutral-200'
+                      }`}>
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="block text-xs font-black uppercase tracking-tight">{tab.label}</span>
+                        <span className={`block text-[10px] ${isActive ? 'text-neutral-300' : 'text-neutral-500'} font-medium`}>
+                          {tab.desc}
+                        </span>
+                      </div>
+                    </div>
+                    {isActive && <Check className="w-4 h-4 text-[#FF6A00] shrink-0" />}
                   </button>
                 );
               })}
             </div>
-          </div>
-        </div>
-
-        {/* Admin Tabs (Mobile / Tablet Horizontal Strip) */}
-        <div className="lg:hidden border-t border-neutral-200 bg-white px-2 py-1.5 flex items-center space-x-1 overflow-x-auto no-scrollbar">
-          {[
-            { id: 'overview', label: 'Overview', icon: TrendingUp },
-            { id: 'clients', label: `Clients (${clients.length})`, icon: Users },
-            { id: 'bookings', label: `Bookings (${bookings.length})`, icon: Calendar },
-            { id: 'schedules', label: 'Slots', icon: Clock },
-            { id: 'leads', label: `Leads (${consultationLeads.length})`, icon: Phone },
-            { id: 'equipment', label: `Gear (${equipmentKits.length})`, icon: Dumbbell },
-            { id: 'revenue', label: 'Financials', icon: DollarSign },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`min-h-[36px] px-3 py-1 text-[11px] font-black uppercase tracking-wider rounded-lg whitespace-nowrap transition shrink-0 flex items-center gap-1.5 active:scale-95 ${
-                  isActive
-                    ? 'bg-[#FF6A00] text-white shadow-xs'
-                    : 'text-neutral-600 hover:text-black hover:bg-neutral-100'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5 shrink-0" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+          )}
         </div>
       </header>
 
